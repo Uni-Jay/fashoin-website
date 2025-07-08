@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fashion Store</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Fashion Store</h1>
+    <nav>
+      <ul>
+        <li><a href="#" onclick="showSection('products')">Products</a></li>
+        <li><a href="#" onclick="showSection('cart')">Cart (<span id="cart-count">0</span>)</a></li>
+        <li><a href="#" onclick="showSection('product-form')">Add Product</a></li>
+        <li><button class="toggle-darkmode" id="darkmode-toggle">Dark Mode</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="products-section">
+      <div class="controls">
+        <input type="text" id="search-input" placeholder="Search..." />
+        <select id="category-filter">
+          <option value="">All</option>
+          <option value="men">Men</option>
+          <option value="women">Women</option>
+          <option value="sales">Sales</option>
+        </select>
+      </div>
+      <div id="product-list" class="carousel"></div>
+    </section>
+
+    <section id="cart-section" style="display:none;">
+      <h2>Your Cart</h2>
+      <div id="cart-items" class="carousel"></div>
+      <button id="clear-cart">Clear Cart</button>
+      <button id="checkout">Checkout</button>
+    </section>
+
+    <section id="product-form-section" style="display:none;">
+      <h2 id="form-title">Add Product</h2>
+      <form id="product-form">
+        <input type="text" id="name" placeholder="Product Name" required />
+        <input type="number" id="price" placeholder="Price" step="0.01" required />
+        <select id="category" required>
+          <option value="">Select Category</option>
+          <option value="men">Men</option>
+          <option value="women">Women</option>
+          <option value="sales">Sales</option>
+        </select>
+        <input type="text" id="image" placeholder="Image file name (e.g. boots.jpg)" required />
+        <input type="hidden" id="editIndex" />
+        <button type="submit">Save Product</button>
+        <button type="button" onclick="showSection('products')">Cancel</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>&copy; 2025 Fashion Store</footer>
+  <script src="script.js"></script>
+</body>
+</html>
