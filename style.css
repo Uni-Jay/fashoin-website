@@ -1,211 +1,101 @@
- :root {
-    --bg-light: #f4f4f9;
-    --bg-dark: #121212;
-    --text-light: #333;
-    --text-dark: #eee;
-    --primary: #ff4081;
-    --secondary: #333;
-  }
+/* Keep your existing styles */
 
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-light);
-    color: var(--text-light);
-    transition: background-color 0.3s, color 0.3s;
-  }
+/* Make product cards flexible */
+.product {
+  flex: 1 1 220px; /* grow and shrink, basis 220px */
+  max-width: 280px; /* max width so they don’t get too big */
+}
 
-  body.dark {
-    background-color: var(--bg-dark);
-    color: var(--text-dark);
-  }
+/* Form max width */
+form {
+  max-width: 400px;
+  width: 90%;
+  margin: 2rem auto;
+}
 
+/* Controls inputs better on small */
+.controls input, .controls select {
+  min-width: 0; /* override previous 150px */
+  flex-grow: 1;
+}
+
+/* Smaller screens (phones) */
+@media (max-width: 480px) {
   header {
-    background-color: var(--primary);
-    color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
-
-  header h1 {
-    font-size: 1.5rem;
-  }
-
+  
   nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    margin: 0;
+    flex-direction: column;
+    gap: 0.5rem;
   }
-
-  nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  nav ul li a:hover {
-    text-decoration: underline;
-  }
-
-  main {
-    padding: 1rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
+  
   .controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    flex-direction: column;
   }
-
-  .controls input, .controls select {
-    flex: 1;
-    min-width: 150px;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-
+  
   .carousel {
-    display: flex;
-    overflow-x: auto;
-    gap: 1rem;
-    padding-bottom: 1rem;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+    gap: 0.5rem;
   }
-
-  .carousel::-webkit-scrollbar {
-    display: none;
-  }
-
+  
   .product {
-    flex: 0 0 220px;
-    background-color: white;
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    scroll-snap-align: start;
-    text-align: center;
-    transition: transform 0.2s;
+    flex-basis: 90vw; /* almost full width on mobile */
+    max-width: none;
   }
-
-  .product:hover {
-    transform: scale(1.05);
-  }
-
-  body.dark .product {
-    background-color: #222;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-  }
-
-  .product img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 6px;
-  }
-
-  .product h3 {
-    margin: 0.5rem 0;
-    font-size: 1.1rem;
-  }
-
-  .product button {
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    padding: 0.4rem 0.8rem;
-    margin: 0.25rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-
-  .product button:hover {
-    background-color: #e91e63;
-  }
-
+  
   form {
-    max-width: 400px;
-    margin: 2rem auto;
-    background: white;
-    padding: 1rem 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    width: 95%;
+    padding: 1rem;
   }
-
-  body.dark form {
-    background: #222;
-  }
-
-  form input, form button, form select {
-    width: 100%;
-    padding: 0.75rem;
-    margin: 0.5rem 0;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+  
+  form input, form select, form button {
     font-size: 1rem;
-    background: white;
-    color: var(--text-light);
+    padding: 0.5rem;
   }
-
-  body.dark form input, 
-  body.dark form select {
-    background: #333;
-    color: var(--text-dark);
-    border-color: #555;
+  
+  header h1 {
+    font-size: 1.25rem;
   }
-
-  form button {
-    background-color: var(--primary);
-    color: white;
-    font-weight: bold;
-    border: none;
+  
+  .product h3 {
+    font-size: 1rem;
   }
-
-  form button:hover {
-    background-color: #e91e63;
+  
+  .product button {
+    padding: 0.5rem;
+    font-size: 0.9rem;
   }
-
-  footer {
-    text-align: center;
-    padding: 1.5rem;
-    color: #aaa;
-    margin-top: 3rem;
+}
+/* Larger screens (desktops) */
+@media (min-width: 1024px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
   }
-
-  .toggle-darkmode {
-    background-color: transparent;
-    border: 1px solid white;
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
+  
+  nav ul {
+    flex-direction: row;
+    gap: 1rem;
   }
-
-  .toggle-darkmode:hover {
-    background-color: rgba(255,255,255,0.2);
+  
+  .controls {
+    flex-direction: row;
+    gap: 1rem;
   }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .controls {
-      flex-direction: column;
-    }
-    .carousel {
-      flex-wrap: nowrap;
-    }
+  
+  .carousel {
+    gap: 1rem;
   }
+  
+  .product {
+    flex-basis: calc(33.333% - 1rem); /* three products per row */
+    max-width: calc(33.333% - 1rem);
+  }
+  
+  form {
+    width: 50%;
+    padding: 2rem;
+  }
+}
