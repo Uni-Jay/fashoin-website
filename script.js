@@ -112,24 +112,46 @@ function fillForm() {
   document.getElementById("editIndex").value = editData.index;
 }
 
-document.getElementById("product-form").addEventListener("submit", e => {
+document.getElementById("product-form").addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  // Read basic form values
   const name = document.getElementById("name").value;
   const price = document.getElementById("price").value;
   const category = document.getElementById("category").value;
-  const image = document.getElementById("image").value;
   const index = document.getElementById("editIndex").value;
+
+  // Get the uploaded file from the file input
+  const fileInput = document.getElementById("image");
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert("Please select an image file.");
+    return;
+  }
+
+  // Convert file to base64 string (data URL)
+  const image = await toBase64(file);
+
+  // Create product object with base64 image string
   const product = { name, price, category, image };
+
+  // Get existing products from localStorage
   const products = JSON.parse(localStorage.getItem("products")) || [];
 
   if (index) {
+    // Edit existing product
     products[index] = product;
     localStorage.removeItem("editProduct");
   } else {
+    // Add new product
     products.push(product);
   }
 
+  // Save updated products list to localStorage
   localStorage.setItem("products", JSON.stringify(products));
+
+  // Reset the form and UI
   e.target.reset();
   showSection("products");
   renderProducts();
