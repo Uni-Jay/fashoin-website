@@ -1,99 +1,305 @@
-/* Keep your existing styles */
-
-/* Make product cards flexible */
-.product {
-  flex: 1 1 220px; /* grow and shrink, basis 220px */
-  max-width: 280px; /* max width so they don’t get too big */
+:root {
+  --bg-light: #f4f4f9;
+  --bg-dark: #121212;
+  --text-light: #333;
+  --text-dark: #eee;
+  --primary: #ff4081;
+  --secondary: #333;
 }
 
-/* Form max width */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+header {
+  background-color: var(--primary);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background-color 0.3s;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+main {
+  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.controls input,
+.controls select {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.controls input:focus,
+.controls select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.product {
+  flex: 0 0 220px;
+  max-width: 280px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  scroll-snap-align: start;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.product:hover {
+  transform: scale(1.05);
+}
+
+body.dark .product {
+  background-color: #222;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+.product img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.product img:hover {
+  transform: scale(1.05);
+}
+
+.product h3 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.product p {
+  margin: 0.25rem 0;
+}
+
+.product button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  margin: 0.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.product button:hover {
+  background-color: #e91e63;
+  transform: scale(1.05);
+}
+
 form {
   max-width: 400px;
   width: 90%;
   margin: 2rem auto;
+  background: white;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: background 0.3s;
 }
 
-/* Controls inputs better on small */
-.controls input, .controls select {
-  min-width: 0; /* override previous 150px */
-  flex-grow: 1;
+body.dark form {
+  background: #222;
 }
 
-/* Smaller screens (phones) */
-@media (max-width: 480px) {
+form input,
+form button,
+form select {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background: white;
+  color: var(--text-light);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+body.dark form input,
+body.dark form select {
+  background: #333;
+  color: var(--text-dark);
+  border-color: #555;
+}
+
+form button {
+  background-color: var(--primary);
+  color: white;
+  font-weight: bold;
+  border: none;
+}
+
+form button:hover {
+  background-color: #e91e63;
+}
+
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: #aaa;
+  margin-top: 3rem;
+}
+
+.toggle-darkmode {
+  background-color: transparent;
+  border: 1px solid white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.toggle-darkmode:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+  }
+
   header {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   nav ul {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
-  .controls {
-    flex-direction: column;
-  }
-  
-  .carousel {
-    gap: 0.5rem;
-  }
-  
+
   .product {
-    flex-basis: 90vw; /* almost full width on mobile */
+    flex-basis: 90vw;
     max-width: none;
   }
-  
+
   form {
     width: 95%;
     padding: 1rem;
   }
-  
-  form input, form select, form button {
+
+  form input,
+  form select,
+  form button {
     font-size: 1rem;
     padding: 0.5rem;
   }
-  
+
   header h1 {
     font-size: 1.25rem;
   }
-  
+
   .product h3 {
     font-size: 1rem;
   }
-  
+
   .product button {
     padding: 0.5rem;
     font-size: 0.9rem;
   }
 }
-/* Larger screens (desktops) */
+
 @media (min-width: 1024px) {
-  header {
-    flex-direction: row;
-    justify-content: space-between;
+  .product {
+    flex-basis: calc(33.333% - 1rem);
+    max-width: calc(33.333% - 1rem);
   }
-  
-  nav ul {
-    flex-direction: row;
-    gap: 1rem;
-  }
-  
+
   .controls {
     flex-direction: row;
     gap: 1rem;
   }
-  
-  .carousel {
+
+  nav ul {
+    flex-direction: row;
     gap: 1rem;
   }
-  
-  .product {
-    flex-basis: calc(33.333% - 1rem); /* three products per row */
-    max-width: calc(33.333% - 1rem);
-  }
-  
+
   form {
     width: 50%;
     padding: 2rem;

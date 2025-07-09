@@ -8,6 +8,17 @@ if (!localStorage.getItem("products")) {
   localStorage.setItem("products", JSON.stringify(products));
 }
 
+// Helper to convert file to base64
+function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+// Show section
 function showSection(section) {
   ["products", "cart", "product-form"].forEach(id => {
     document.getElementById(`${id}-section`).style.display = id === section ? 'block' : 'none';
@@ -15,6 +26,7 @@ function showSection(section) {
   if (section === "cart") renderCart();
 }
 
+// Render product cards
 function renderProducts() {
   const category = document.getElementById("category-filter").value;
   const query = document.getElementById("search-input").value.toLowerCase();
@@ -27,7 +39,7 @@ function renderProducts() {
       const div = document.createElement("div");
       div.className = "product";
       div.innerHTML = `
-        <img src="images/${product.image}" alt="${product.name}" />
+        <img src="${product.image}" alt="${product.name}" />
         <h3>${product.name}</h3>
         <p>$${product.price}</p>
         <p><small>${product.category}</small></p>
@@ -40,6 +52,7 @@ function renderProducts() {
   });
 }
 
+// Add to cart
 function addToCart(index) {
   const products = JSON.parse(localStorage.getItem("products"));
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -49,6 +62,7 @@ function addToCart(index) {
   alert("Added to cart!");
 }
 
+// Render cart
 function renderCart() {
   const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
   const cartDiv = document.getElementById("cart-items");
@@ -63,7 +77,7 @@ function renderCart() {
     const div = document.createElement("div");
     div.className = "product";
     div.innerHTML = `
-      <img src="images/${item.image}" alt="${item.name}" />
+      <img src="${item.image}" alt="${item.name}" />
       <h3>${item.name}</h3>
       <p>$${item.price}</p>
       <button onclick="removeFromCart(${i})">Remove</button>
@@ -85,6 +99,7 @@ function updateCartCount() {
   document.getElementById("cart-count").innerText = cart.length;
 }
 
+// Edit
 function editProduct(index) {
   const products = JSON.parse(localStorage.getItem("products"));
   const product = products[index];
@@ -101,6 +116,7 @@ function deleteProduct(index) {
   renderProducts();
 }
 
+// Fill form
 function fillForm() {
   const editData = JSON.parse(localStorage.getItem("editProduct"));
   if (!editData) return;
@@ -108,58 +124,43 @@ function fillForm() {
   document.getElementById("name").value = editData.name;
   document.getElementById("price").value = editData.price;
   document.getElementById("category").value = editData.category;
-  document.getElementById("image").value = editData.image;
   document.getElementById("editIndex").value = editData.index;
 }
 
+// Submit form
 document.getElementById("product-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // Read basic form values
   const name = document.getElementById("name").value;
   const price = document.getElementById("price").value;
   const category = document.getElementById("category").value;
   const index = document.getElementById("editIndex").value;
 
-  // Get the uploaded file from the file input
-  const fileInput = document.getElementById("image");
-  const file = fileInput.files[0];
+  const file = document.getElementById("image").files[0];
+  const image = file ? await toBase64(file) : null;
 
-  if (!file) {
-    alert("Please select an image file.");
+  if (!image) {
+    alert("Please select an image.");
     return;
   }
 
-  // Convert file to base64 string (data URL)
-  const image = await toBase64(file);
-
-  // Create product object with base64 image string
   const product = { name, price, category, image };
-
-  // Get existing products from localStorage
   const products = JSON.parse(localStorage.getItem("products")) || [];
 
   if (index) {
-    // Edit existing product
     products[index] = product;
     localStorage.removeItem("editProduct");
   } else {
-    // Add new product
     products.push(product);
   }
 
-  // Save updated products list to localStorage
   localStorage.setItem("products", JSON.stringify(products));
-
-  // Reset the form and UI
   e.target.reset();
   showSection("products");
   renderProducts();
 });
 
-document.getElementById("search-input").addEventListener("input", renderProducts);
-document.getElementById("category-filter").addEventListener("change", renderProducts);
-
+// Other buttons
 document.getElementById("clear-cart").addEventListener("click", () => {
   localStorage.setItem("cart", JSON.stringify([]));
   renderCart();
@@ -184,7 +185,7 @@ document.getElementById("darkmode-toggle").addEventListener("click", () => {
   document.getElementById("darkmode-toggle").innerText = document.body.classList.contains("dark") ? "Light Mode" : "Dark Mode";
 });
 
-// Setup on load
+// Init
 document.addEventListener("DOMContentLoaded", () => {
   if (!localStorage.getItem("cart")) {
     localStorage.setItem("cart", JSON.stringify([]));
